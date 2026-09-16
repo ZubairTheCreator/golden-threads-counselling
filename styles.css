@@ -170,8 +170,8 @@ p { margin: 0 0 1.1em; }
 /* contact */
 .contact {
   padding: var(--section-pad) 0;
-  /* section colour at 70% over the wallpaper */
-  background: linear-gradient(rgba(246,241,227,.7), rgba(246,241,227,.7)), url(assets/bg-contact.jpg) center / cover no-repeat;
+  /* wallpaper at 80%: section colour tint at 20% over it */
+  background: linear-gradient(rgba(246,241,227,.2), rgba(246,241,227,.2)), url(assets/bg-contact.jpg) center / cover no-repeat;
 }
 .contact .grid-2 { align-items: start; }
 address { font-style: normal; margin-bottom: 1.5rem; }
