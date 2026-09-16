@@ -1,6 +1,6 @@
 /* Hero intro: the self-mending ceramic bowl. Vanilla port of the Claude Design
    composition (Hero Mend.dc.html / hero-mend.jsx); geometry from shards-data.js.
-   Plays full-bleed once, docks to the side, then the hero copy rises. */
+   Plays full-bleed on every load, docks to the side, then the hero copy rises. */
 (function () {
   var host = document.querySelector('.hero-mend');
   var hero = host && host.closest('.hero');
@@ -13,9 +13,8 @@
     ['Drift', 0.5, 3.2], ['Gather', 1.3, 2.6], ['Mend', 0.6, 5.6], ['Whole', 0.3, 3.4],
     ['Pour', 2.2, 3], ['Lockup', 1.1, 3], ['Rest', 1.7, 2.2]];
   var DOCK_MS = 1200;                  // slide from full-bleed to the side
-  var REVEAL_DELAY_MS = 250;           // pause after docking before the copy rises
+  var REVEAL_DELAY_MS = 400;           // pause after docking settles before the copy rises
   var CROP = [240, 190, 1440, 720];    // viewBox framing the finished lockup
-  var ONCE_KEY = 'gt-intro-played';    // sessionStorage: intro plays once per tab session
 
   /* ── timeline: wall-clock -> authored seconds, per-scene tempo ─────── */
   var CUES = {}, sections = [], play = 0, auth = 0;
@@ -190,14 +189,12 @@
 
   var reveal = function () { hero.classList.add('is-revealed'); };
   var skip = false;
-  try { skip = matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem(ONCE_KEY) === '1'; } catch (e) {}
+  try { skip = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
   if (skip) {
     render(END_T); setBox(CROP);
     hero.classList.add('is-docked'); reveal();
     return;
   }
-  try { sessionStorage.setItem(ONCE_KEY, '1'); } catch (e) {}
-
   host.style.transitionDuration = DOCK_MS + 'ms';
   var t0 = null, dockAt = null, from = null;
   function frame(now) {
