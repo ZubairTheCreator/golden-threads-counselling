@@ -143,6 +143,12 @@ p { margin: 0 0 1.1em; }
 .services .section-bg.in { transform: none; }
 @media (prefers-reduced-motion: reduce) { .section-bg { transition: none; } }
 
+/* section rules: a warm-earth line drawn left to right along the top edge on scroll */
+.rule { position: relative; }
+.rule::before { content: ""; position: absolute; top: 0; left: 0; z-index: 2; height: 3px; width: 0; background: var(--warm-earth); transition: width 1.2s cubic-bezier(.22,.61,.36,1); }
+.rule.in::before { width: 100%; }
+@media (prefers-reduced-motion: reduce) { .rule::before { transition: none; } }
+
 /* about */
 .about { padding: var(--section-pad) 0; background: var(--soft-comfort); }
 .about p { max-width: 60ch; }

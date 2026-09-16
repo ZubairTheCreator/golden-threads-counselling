@@ -59,7 +59,7 @@
 </section>
 
 <!-- 2. ABOUT -->
-<section id="about" class="about">
+<section id="about" class="about rule">
   <div class="wrap grid-2">
     <div>
       <h2>Meet Jessica</h2>
@@ -82,7 +82,7 @@
 </section>
 
 <!-- 3. SERVICES -->
-<section id="services" class="services">
+<section id="services" class="services rule">
   <img class="section-bg slide-in" src="assets/bg-bowl.webp" alt="" aria-hidden="true" loading="lazy">
   <div class="wrap">
     <h2>How I can help</h2>
@@ -114,7 +114,7 @@
 </section>
 
 <!-- 4. CONTACT -->
-<section id="contact" class="contact">
+<section id="contact" class="contact rule">
   <div class="wrap grid-2">
     <div>
       <h2>Get in touch</h2>
@@ -146,7 +146,7 @@
 
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer rule">
   <img src="assets/logo-stacked-white.png" alt="Golden Threads Counselling" width="180" height="94">
   <p>Jessica Nussbaum · ASCHP Specialist Wellness Counsellor · SWC25/9820</p>
   <p><a href="tel:+27609969276">060 996 9276</a> · <a href="mailto:jncounselling@outlook.com">jncounselling@outlook.com</a></p>
@@ -159,9 +159,9 @@
 </a>
 
 <script>
-  // slide section wallpapers in once they scroll into view
-  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .15 });
-  document.querySelectorAll('.slide-in').forEach(function (el) { io.observe(el); });
+  // add .in once an element scrolls into view: wallpapers slide in, section rules draw
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.slide-in, .rule').forEach(function (el) { io.observe(el); });
 </script>
 <script src="assets/shards-data.js"></script>
 <script src="hero-mend.js"></script>
