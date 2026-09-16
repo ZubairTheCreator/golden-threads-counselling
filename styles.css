@@ -135,13 +135,11 @@ p { margin: 0 0 1.1em; }
 }
 
 /* section wallpapers: decorative kintsugi cut-outs that slide in behind .wrap on scroll */
-.about, .services { position: relative; overflow: hidden; }
-.about .wrap, .services .wrap { position: relative; z-index: 1; }
+.services { position: relative; overflow: hidden; }
+.services .wrap { position: relative; z-index: 1; }
 .section-bg { position: absolute; z-index: 0; pointer-events: none; opacity: 0; transition: transform 1.4s cubic-bezier(.22,.61,.36,1), opacity 1.4s; }
-.about .section-bg { right: -12%; top: 50%; width: min(95vw, 1100px); transform: translate(30%, -50%); }
 .services .section-bg { left: 0; right: 0; bottom: -6%; width: 100%; transform: translateX(-30%); }
 .section-bg.in { opacity: .4; }
-.about .section-bg.in { transform: translate(0, -50%); }
 .services .section-bg.in { transform: none; }
 @media (prefers-reduced-motion: reduce) { .section-bg { transition: none; } }
 
