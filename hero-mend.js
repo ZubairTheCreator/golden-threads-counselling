@@ -1,6 +1,7 @@
 /* Hero intro: the self-mending ceramic bowl. Vanilla port of the Claude Design
    composition (Hero Mend.dc.html / hero-mend.jsx); geometry from shards-data.js.
-   Plays full-bleed on every load, docks to the side, then the hero copy rises. */
+   Plays full-bleed once per tab session, docks to the side, then the hero copy rises.
+   On later loads the finished bowl shows centred, then docks, then the copy rises. */
 (function () {
   var host = document.querySelector('.hero-mend');
   var hero = host && host.closest('.hero');
@@ -14,6 +15,8 @@
     ['Pour', 2.2, 3], ['Lockup', 1.1, 3], ['Rest', 1.7, 2.2]];
   var DOCK_MS = 1200;                  // slide from full-bleed to the side
   var REVEAL_DELAY_MS = 400;           // pause after docking settles before the copy rises
+  var HOLD_MS = 350;                   // replay: show the finished bowl centred before it docks
+  var ONCE_KEY = 'gt-intro-played';    // sessionStorage: full mend plays once per tab session
   var CROP = [240, 190, 1440, 720];    // viewBox framing the finished lockup
 
   /* ── timeline: wall-clock -> authored seconds, per-scene tempo ─────── */
@@ -188,21 +191,23 @@
   function mix(a, b, u) { return a.map(function (v, i) { return v + (b[i] - v) * u; }); }
 
   var reveal = function () { hero.classList.add('is-revealed'); };
-  var skip = false;
-  try { skip = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  var skip = false, replay = false;
+  try { skip = matchMedia('(prefers-reduced-motion: reduce)').matches; replay = sessionStorage.getItem(ONCE_KEY) === '1'; } catch (e) {}
   if (skip) {
     render(END_T); setBox(CROP);
     hero.classList.add('is-docked'); reveal();
     return;
   }
+  try { sessionStorage.setItem(ONCE_KEY, '1'); } catch (e) {}
+
   host.style.transitionDuration = DOCK_MS + 'ms';
   var t0 = null, dockAt = null, from = null;
   function frame(now) {
     if (t0 == null) t0 = now;
     if (dockAt == null) {
-      var T = Math.min(warp((now - t0) / 1000), END_T);
+      var T = replay ? END_T : Math.min(warp((now - t0) / 1000), END_T);
       render(T); setBox(coverBox());
-      if (T < END_T) return requestAnimationFrame(frame);
+      if (T < END_T || (replay && now - t0 < HOLD_MS)) return requestAnimationFrame(frame);
       dockAt = now; from = coverBox();
       hero.classList.add('is-docked');
     }
