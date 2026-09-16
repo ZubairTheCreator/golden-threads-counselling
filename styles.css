@@ -139,7 +139,7 @@ p { margin: 0 0 1.1em; }
 .about .wrap, .services .wrap { position: relative; z-index: 1; }
 .section-bg { position: absolute; z-index: 0; pointer-events: none; opacity: 0; transition: transform 1.4s cubic-bezier(.22,.61,.36,1), opacity 1.4s; }
 .about .section-bg { right: -10%; top: 50%; width: min(75vw, 820px); transform: translate(30%, -50%); }
-.services .section-bg { left: -4%; bottom: -6%; width: min(110vw, 1500px); transform: translateX(-30%); }
+.services .section-bg { left: 0; right: 0; bottom: -6%; width: 100%; transform: translateX(-30%); }
 .section-bg.in { opacity: .4; }
 .about .section-bg.in { transform: translate(0, -50%); }
 .services .section-bg.in { transform: none; }
