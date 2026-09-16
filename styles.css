@@ -134,6 +134,17 @@ p { margin: 0 0 1.1em; }
   .hero.is-docked .hero-mend { inset: 0 0 calc(100% - 38svh) 0; }
 }
 
+/* section wallpapers: decorative kintsugi cut-outs that slide in behind .wrap on scroll */
+.about, .services { position: relative; overflow: hidden; }
+.about .wrap, .services .wrap { position: relative; z-index: 1; }
+.section-bg { position: absolute; z-index: 0; pointer-events: none; opacity: 0; transition: transform 1.4s cubic-bezier(.22,.61,.36,1), opacity 1.4s; }
+.about .section-bg { right: -10%; top: 50%; width: min(75vw, 820px); transform: translate(30%, -50%); }
+.services .section-bg { left: -8%; top: 58%; width: min(75vw, 800px); transform: translate(-30%, -50%); }
+.section-bg.in { opacity: .4; }
+.about .section-bg.in { transform: translate(0, -50%); }
+.services .section-bg.in { transform: translate(0, -50%); }
+@media (prefers-reduced-motion: reduce) { .section-bg { transition: none; } }
+
 /* about */
 .about { padding: var(--section-pad) 0; background: var(--soft-comfort); }
 .about p { max-width: 60ch; }
@@ -157,7 +168,11 @@ p { margin: 0 0 1.1em; }
 .fee { flex: 0; margin: 1rem 0 0; font-weight: 700; color: var(--warm-earth); }
 
 /* contact */
-.contact { padding: var(--section-pad) 0; background: var(--soft-comfort); }
+.contact {
+  padding: var(--section-pad) 0;
+  /* section colour at 70% over the wallpaper */
+  background: linear-gradient(rgba(246,241,227,.7), rgba(246,241,227,.7)), url(assets/bg-contact.jpg) center / cover no-repeat;
+}
 .contact .grid-2 { align-items: start; }
 address { font-style: normal; margin-bottom: 1.5rem; }
 address p { margin-bottom: 1rem; }
