@@ -61,7 +61,7 @@
 <!-- 2. ABOUT -->
 <section id="about" class="about rule">
   <div class="wrap grid-2">
-    <div>
+    <div class="reveal">
       <h2>Meet Jessica</h2>
       <p class="lede">A calm, safe space to talk, heal, and find your way forward.</p>
       <p>I am an ASCHP Specialist Wellness Counsellor, and I walk alongside people through life's challenges and difficult seasons. I believe everyone deserves a safe, supportive space where they can feel heard, understood and accepted.</p>
@@ -75,7 +75,7 @@
       </ul>
       <a class="btn" href="#contact">Get in touch</a>
     </div>
-    <figure class="portrait">
+    <figure class="portrait reveal">
       <img src="assets/jessica.jpg" alt="Jessica Nussbaum seated on a couch, holding a cup of tea and smiling" width="600" height="898" loading="lazy">
     </figure>
   </div>
@@ -84,7 +84,7 @@
 <!-- 3. SERVICES -->
 <section id="services" class="services rule">
   <img class="section-bg slide-in" src="assets/bg-bowl.webp" alt="" aria-hidden="true" loading="lazy">
-  <div class="wrap">
+  <div class="wrap reveal">
     <h2>How I can help</h2>
     <p class="lede">Sessions are held in person at the practice in Langeberg Ridge. You do not have to carry this alone, and things can get better.</p>
     <div class="cards">
@@ -116,7 +116,7 @@
 <!-- 4. CONTACT -->
 <section id="contact" class="contact rule">
   <div class="wrap grid-2">
-    <div>
+    <div class="reveal">
       <h2>Get in touch</h2>
       <p class="lede">Send a message, call, or book a time online. There is no rush and no pressure.</p>
       <address>
@@ -137,7 +137,7 @@
         <a href="https://www.linkedin.com/company/golden-threads-counselling/" target="_blank" rel="noopener">LinkedIn</a>
       </p>
     </div>
-    <div class="map">
+    <div class="map reveal">
       <iframe title="Map to Golden Threads Counselling, Doxa Deo Langeberg" src="https://www.google.com/maps?q=Doxa+Deo+Langeberg,+Steenbok+Road,+Langeberg+Ridge,+Cape+Town,+7550&output=embed" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
       <a class="btn btn-outline" href="https://www.google.com/maps/dir/?api=1&destination=Doxa+Deo+Langeberg,+Steenbok+Road,+Langeberg+Ridge,+Cape+Town,+7550" target="_blank" rel="noopener">Get directions</a>
     </div>
@@ -146,7 +146,7 @@
 
 </main>
 
-<footer class="site-footer rule">
+<footer class="site-footer rule reveal">
   <img src="assets/logo-stacked-white.png" alt="Golden Threads Counselling" width="180" height="94">
   <p>Jessica Nussbaum · ASCHP Specialist Wellness Counsellor · SWC25/9820</p>
   <p><a href="tel:+27609969276">060 996 9276</a> · <a href="mailto:jncounselling@outlook.com">jncounselling@outlook.com</a></p>
@@ -159,9 +159,9 @@
 </a>
 
 <script>
-  // add .in once an element scrolls into view: wallpapers slide in, section rules draw
+  // add .in once an element scrolls into view: wallpapers slide in, section rules draw, copy rises
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
-  document.querySelectorAll('.slide-in, .rule').forEach(function (el) { io.observe(el); });
+  document.querySelectorAll('.slide-in, .rule, .reveal').forEach(function (el) { io.observe(el); });
 </script>
 <script src="assets/shards-data.js"></script>
 <script src="hero-mend.js"></script>
