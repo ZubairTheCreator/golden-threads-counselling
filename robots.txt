@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zubairthecreator.github.io/golden-threads-counselling/sitemap.xml
