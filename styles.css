@@ -119,7 +119,7 @@ p { margin: 0 0 1.1em; }
 .hero-content > :nth-child(4) { transition-delay: .36s; }
 .hero h1 { color: var(--white); max-width: 14ch; }
 .hero-sub { font: 500 clamp(1.15rem, 2vw, 1.5rem)/1.3 var(--font-body); margin-bottom: 1.25em; }
-.hero-sub em { font: italic 700 1.05em var(--font-display); color: var(--hopeful-gold); }
+.hero-sub em { font: italic 700 1.05em "Times New Roman", Times, serif; color: var(--hopeful-gold); }
 .hero-body { max-width: 52ch; margin-bottom: 2em; }
 @media (min-width: 860px) {
   /* keep the hero inside one laptop viewport so the intro is never cut off below the fold */

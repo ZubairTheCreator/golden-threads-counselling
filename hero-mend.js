@@ -12,7 +12,7 @@
   var SEAM = 1, SPREAD = 1;            // design props seamGlow / spread
   var SCENES = [                       // [name, playback s, authored s] from the design editor
     ['Drift', 0.5, 3.2], ['Gather', 1.3, 2.6], ['Mend', 0.6, 5.6], ['Whole', 0.3, 3.4],
-    ['Pour', 2.2, 3], ['Lockup', 1.1, 3], ['Rest', 1.7, 2.2]];
+    ['Pour', 1.5, 2], ['Lockup', 1.1, 3], ['Rest', 1.7, 2.2]];
   var DOCK_MS = 1200;                  // slide from full-bleed to the side
   var REVEAL_DELAY_MS = 400;           // pause after docking settles before the copy rises
   var HOLD_MS = 350;                   // replay: show the finished bowl centred before it docks
@@ -91,7 +91,6 @@
     '<defs>' +
     '<radialGradient id="hm-halo" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#d8a24a" stop-opacity=".2"/><stop offset="55%" stop-color="#c07a33" stop-opacity=".07"/><stop offset="100%" stop-color="#c07a33" stop-opacity="0"/></radialGradient>' +
     '<linearGradient id="hm-sweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8a6a45" stop-opacity="0"/><stop offset="42%" stop-color="#8a6a45" stop-opacity=".3"/><stop offset="58%" stop-color="#a98352" stop-opacity=".26"/><stop offset="100%" stop-color="#8a6a45" stop-opacity="0"/></linearGradient>' +
-    '<linearGradient id="hm-stream" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a9721a"/><stop offset="35%" stop-color="#f6c85f"/><stop offset="55%" stop-color="#ffeab4"/><stop offset="100%" stop-color="#a9721a"/></linearGradient>' +
     '<filter id="hm-seam" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="5.5"/></filter>' +
     '<mask id="hm-hull" maskUnits="userSpaceOnUse" x="-40" y="-40" width="' + (BW + 80) + '" height="' + (BH + 80) + '"><path d="' + HULL + '" fill="#fff"/></mask>' +
     '<clipPath id="hm-clip">' + paths('') + '</clipPath>' +
@@ -105,12 +104,10 @@
         '<g filter="url(#hm-seam)">' + paths('fill="none" stroke="#e9a534" stroke-width="28" stroke-linejoin="round" opacity="' + 0.95 * SEAM + '"') + '</g>' +
         paths('fill="none" stroke="#ffd98a" stroke-width="12" stroke-linejoin="round" opacity="' + 0.85 * SEAM + '"') +
       '</g>' +
-      '<g class="stream"><rect class="s-glow" width="26" fill="#e9a534" opacity=".5" filter="url(#hm-seam)"/><rect class="s-core" width="15" fill="url(#hm-stream)"/><ellipse class="s-head" rx="10" ry="13" fill="#ffeab4"/></g>' +
-      '<ellipse class="impact" cx="500" cy="6" fill="#ffd98a" filter="url(#hm-seam)"/>' +
       SH.map(function (s, i) { var t = CFG[i].tone; return '<path class="shard" d="' + s.d + '" fill="rgb(' + Math.round(251 * t) + ',' + Math.round(247 * t) + ',' + Math.round(240 * t) + ')"/>'; }).join('') +
       '<g class="sweep" clip-path="url(#hm-clip)" style="mix-blend-mode:overlay"><rect class="sweep-r" y="-60" width="420" height="' + (BH + 120) + '" fill="url(#hm-sweep)"/></g>' +
     '</g>' +
-    '<g class="name"><text x="960" y="742" text-anchor="middle" fill="#fbf7f0" style="font:400 168px \'Playfair Display\',Georgia,serif">Jessica Nussbaum</text></g>' +
+    '<g class="name"><text x="960" y="742" text-anchor="middle" fill="#fbf7f0" style="font:400 168px \'Times New Roman\',Times,serif">Jessica Nussbaum</text></g>' +
     '<g class="sub"><text x="972" y="844" text-anchor="middle" fill="#fbf7f0" letter-spacing="25" style="font:300 46px Jost,\'Helvetica Neue\',sans-serif">GOLDEN THREADS COUNSELLING</text></g>' +
     '</svg>';
 
@@ -118,8 +115,7 @@
   var $ = function (sel) { return svg.querySelector(sel); };
   var $$ = function (sel) { return Array.prototype.slice.call(svg.querySelectorAll(sel)); };
   var el = { halo: $('.halo'), motes: $$('.mote'), bowl: $('.bowl'), seams: $$('.seam'), shards: $$('.shard'),
-    rise: $('.rise'), stream: $('.stream'), sGlow: $('.s-glow'), sCore: $('.s-core'), sHead: $('.s-head'),
-    impact: $('.impact'), sweep: $('.sweep'), sweepR: $('.sweep-r'), name: $('.name'), sub: $('.sub') };
+    rise: $('.rise'), sweep: $('.sweep'), sweepR: $('.sweep-r'), name: $('.name'), sub: $('.sub') };
   var set = function (e, k, v) { e.setAttribute(k, v); };
 
   var mendSpan = Math.max(1.2, (CUES.Whole - CUES.Mend) - 1.0), stag = mendSpan / N;
@@ -155,19 +151,10 @@
       set(el.motes[i], 'cy', ((m.y - T * m.sp) % 1080 + 1080) % 1080);
     });
 
-    // the pour: gold falls in from offscreen, then the cracks fill from the foot up
+    // the fill: the cracks flood with gold from the foot up
     var pS = CUES.Pour;
-    var headY = draw(-640, 8, pS, pS + 0.8, T), tailY = draw(-640, 8, pS + 2.0, pS + 2.7, T);
-    var streamX = 500 + Math.sin(T * 2.9) * 3;
-    var streamOp = enter(0, 1, pS, pS + 0.12, T) * enter(1, 0, pS + 2.6, pS + 2.85, T);
-    var impact = T > pS + 0.72 ? Math.exp(-(T - (pS + 0.78)) / 0.45) * streamOp : 0;
-    var level = draw(BH + 80, -20, pS + 0.8, pS + 2.5, T);
+    var level = draw(BH + 80, -20, pS, pS + 1.7, T);
     set(el.rise, 'y', level); set(el.rise, 'height', BH + 160 - level);
-    set(el.stream, 'opacity', streamOp);
-    set(el.sGlow, 'x', streamX - 13); set(el.sGlow, 'y', tailY); set(el.sGlow, 'height', Math.max(0, headY - tailY));
-    set(el.sCore, 'x', streamX - 7.5); set(el.sCore, 'y', tailY); set(el.sCore, 'height', Math.max(0, headY - tailY));
-    set(el.sHead, 'cx', streamX); set(el.sHead, 'cy', headY);
-    set(el.impact, 'rx', 40 + impact * 90); set(el.impact, 'ry', 8 + impact * 20); set(el.impact, 'opacity', impact * 0.5);
 
     set(el.sweep, 'opacity', enter(0, 0.85, CUES.Whole + 0.1, CUES.Whole + 0.9, T));
     set(el.sweepR, 'x', draw(-760, 1900, CUES.Whole, authoredTotal - 0.2, T));
@@ -185,7 +172,8 @@
   /* ── framing: emulate object-fit:cover during the intro, then tween to CROP */
   function coverBox() {
     var a = host.clientWidth / Math.max(1, host.clientHeight);
-    return a >= 16 / 9 ? [0, (1080 - 1920 / a) / 2, 1920, 1920 / a] : [(1920 - 1080 * a) / 2, 0, 1080 * a, 1080];
+    // portrait (phones): contain, not cover — cover would show only a third of the scene width
+    return a >= 16 / 9 || a < 1 ? [0, (1080 - 1920 / a) / 2, 1920, 1920 / a] : [(1920 - 1080 * a) / 2, 0, 1080 * a, 1080];
   }
   function setBox(b) { set(svg, 'viewBox', b.map(f2).join(' ')); }
   function mix(a, b, u) { return a.map(function (v, i) { return v + (b[i] - v) * u; }); }
